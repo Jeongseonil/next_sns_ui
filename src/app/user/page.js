@@ -133,15 +133,15 @@ export default function User(){
             <Bio>Photographer and traveler</Bio>
             <Stats>
               <StatItem>
-                <StatValue>150</StatValue>
+                <StatValue>{posts.POST_CNT}</StatValue>
                 <StatLabel>Posts</StatLabel>
               </StatItem>
               <StatItem>
-                <StatValue>300</StatValue>
+                <StatValue>{posts.FOLLOWER_CNT}</StatValue>
                 <StatLabel>Followers</StatLabel>
               </StatItem>
               <StatItem>
-                <StatValue>200</StatValue>
+                <StatValue>{posts.FOLLOW_CNT}</StatValue>
                 <StatLabel>Following</StatLabel>
               </StatItem>
             </Stats>
