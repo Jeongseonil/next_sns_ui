@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MenuBar from '../MenuBar';
+import { useRouter } from 'next/navigation';
 const Container = styled.div`
   padding: 20px;
 `;
@@ -18,12 +19,16 @@ const Avatar = styled.img`
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
+  margin-left: 20px;
 `;
 
 const UserInfo = styled.div``;
 
 const Username = styled.h2`
   margin: 0;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
 `;
 
 const Bio = styled.p`
@@ -47,16 +52,18 @@ const StatItem = styled.li`
 
 const StatValue = styled.strong`
   display: block;
+  text-align: center;
 `;
 
 const StatLabel = styled.span``;
 
 const EditProfileButton = styled.button`
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
+  background-color: #ffffff;
+  border: solid 1px #DBDBDB;
+  color: black;
+  padding: 5px;
   text-align: center;
+  -webkit-text-decoration: none;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
@@ -98,12 +105,17 @@ const Post = styled.img`
   object-fit: cover;
 `;
 
+const NameEditBox = styled.div`
+  display: flex;
+`
+
 export default function User(){
   const [activeTab, setActiveTab] = useState('posts');
   const [posts, setPosts] = useState([]);
   let [img, setImg] = useState("/profileImage.jpg");
+  let r = useRouter();
   useEffect(() => {
-    var param1 = "1";
+    var param1 = "20";
     fetch(`/api/user/?param1=${param1}`) // API 라우트를 호출 (api는 고정, 뒤에 폴더 명은 api가 담긴 폴더에 따라 달라 짐)
       .then((response) => {
         if (!response.ok) {
@@ -112,7 +124,6 @@ export default function User(){
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setImg(`${data.U_IMG_PATH}${data.U_IMG_NAME}`);
         setPosts(data);
       })
@@ -121,7 +132,7 @@ export default function User(){
       });
   }, []);
   const handleEditProfile = () => {
-    // Implement edit profile logic here
+    r.push("/editProfile");
   };
   return (
     <div>
@@ -129,25 +140,27 @@ export default function User(){
         <ProfileHeader>
           <Avatar src={img} />
           <UserInfo>
-            <Username>{posts.USER_NAME}</Username>
-            <Bio>Photographer and traveler</Bio>
+            <NameEditBox>
+              <Username>{posts.USER_NAME}</Username>
+              <EditProfileButton onClick={handleEditProfile}>
+                프로필 수정
+              </EditProfileButton>
+            </NameEditBox>
+            <Bio>{posts.USER_INTRODUCTION}</Bio>
             <Stats>
               <StatItem>
                 <StatValue>{posts.POST_CNT}</StatValue>
-                <StatLabel>Posts</StatLabel>
+                <StatLabel>게시글</StatLabel>
               </StatItem>
               <StatItem>
                 <StatValue>{posts.FOLLOWER_CNT}</StatValue>
-                <StatLabel>Followers</StatLabel>
+                <StatLabel>팔로워</StatLabel>
               </StatItem>
               <StatItem>
                 <StatValue>{posts.FOLLOW_CNT}</StatValue>
-                <StatLabel>Following</StatLabel>
+                <StatLabel>팔로잉</StatLabel>
               </StatItem>
             </Stats>
-            <EditProfileButton onClick={handleEditProfile}>
-              Edit Profile
-            </EditProfileButton>
           </UserInfo>
         </ProfileHeader>
         <PostTabs>
@@ -155,13 +168,13 @@ export default function User(){
         active={activeTab === 'posts'}
         onClick={() => setActiveTab('posts')}
       >
-        Posts
+        게시글
       </Tab>
       <Tab
         active={activeTab === 'saved'}
         onClick={() => setActiveTab('saved')}
       >
-        Saved
+        북마크
       </Tab>
     </PostTabs>
     {activeTab === 'posts' && (
