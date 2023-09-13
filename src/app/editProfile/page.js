@@ -3,6 +3,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 const Form = styled.form`
   display: flex;
@@ -51,10 +52,10 @@ export default function Login() {
   let r = useRouter();
   const [posts, setPosts] = useState([]);
   let [img, setImg] = useState("/profileImage.jpg");
-  let param1 = "20";
+  let param1 = Cookies.get("userNo");
   useEffect(() => {
 
-    fetch(`/api/user/?param1=${param1}`) // API 라우트를 호출 (api는 고정, 뒤에 폴더 명은 api가 담긴 폴더에 따라 달라 짐)
+    fetch(`/api/user/info/?param1=${param1}`) // API 라우트를 호출 (api는 고정, 뒤에 폴더 명은 api가 담긴 폴더에 따라 달라 짐)
       .then((response) => {
         if (!response.ok) {
           throw new Error('서버 응답이 실패했습니다.');
@@ -69,6 +70,18 @@ export default function Login() {
         console.error('데이터를 가져오는 중 오류 발생:', error);
       });
   }, []);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImg(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Form onSubmit={e => {
       e.preventDefault();
@@ -76,21 +89,19 @@ export default function Login() {
       let introduction = e.target.introduction.value;
       let gender = e.target.gender.value;
       let no = param1;
-      let file = e.target.file.files[0];
 
       const formData = new FormData();
       formData.append("name", name);
       formData.append("introduction", introduction);
       formData.append("gender", gender);
       formData.append("no", no);
-      formData.append("image", file);
-
+      formData.append("image", e.target.file.files[0]);
       let option = {
         method : 'POST',
-        body : formData //보내줄 값
+        body : formData, //보내줄 값
       }
       
-      fetch("/api/user", option)
+      fetch("/api/user/info", option)
       .then(res => {
         if(!res.ok) {
           throw new Error('서버 응답이 실패했습니다.');
@@ -98,7 +109,8 @@ export default function Login() {
         return res.json();
       })
       .then(data => {
-        alert(data.message);        
+        alert(data.message);
+        r.push("/user");        
       })
       .catch((error) => {
         console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -106,7 +118,7 @@ export default function Login() {
     }}>
       <Avatar src={img}/>
       <ImageEdit>사진 변경
-        <InputFile type='file' accept=".gif, .jpg, .png" name="file"></InputFile>
+        <InputFile type='file' accept=".gif, .jpg, .png" name="file" onChange={handleImageChange}></InputFile>
       </ImageEdit>
       <InputStyle placeholder='이름' name='name' defaultValue={posts.USER_NAME}/>
       <InputStyle placeholder='소개' name='introduction' defaultValue={posts.USER_INTRODUCTION}/>

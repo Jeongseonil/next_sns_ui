@@ -2,6 +2,7 @@
 
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const Form = styled.form`
   display: flex;
@@ -80,7 +81,6 @@ export default function Login() {
     e.preventDefault();
     let email = e.target.email.value;
     let pwd = e.target.pwd.value;
-
     let jsonMap = JSON.stringify({email, pwd});
       let option = {
         method : 'POST',
@@ -98,6 +98,12 @@ export default function Login() {
       .then((data) => {
         // 서버 응답에 대한 로직 추가
         alert(data.msg);
+        if(data.msg == '로그인 성공'){
+          Cookies.set('userNo', data.userNo);
+          r.push("/home");
+        } else {
+          return;
+        }
       })
       .catch((error) => {
         console.error('데이터를 가져오는 중 오류 발생:', error);

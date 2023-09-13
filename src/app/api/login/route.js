@@ -42,7 +42,8 @@ export async function POST(req) {
       }
     }
     msg = "로그인 성공";
-    return NextResponse.json({msg});
+    let userNo = results.USER_NO;
+    return NextResponse.json({msg, userNo});
   } catch (error) {
     console.error('데이터를 가져오는 중 오류 발생:', error);
     return NextResponse.error('데이터를 가져올 수 없습니다.', 500);

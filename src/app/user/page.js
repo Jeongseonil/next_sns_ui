@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MenuBar from '../MenuBar';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 const Container = styled.div`
   padding: 20px;
 `;
@@ -98,11 +100,13 @@ const Posts = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  margin-bottom: 50px;  
 `;
 
 const Post = styled.img`
   width: 100%;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 const NameEditBox = styled.div`
@@ -112,11 +116,13 @@ const NameEditBox = styled.div`
 export default function User(){
   const [activeTab, setActiveTab] = useState('posts');
   const [posts, setPosts] = useState([]);
+  const [list, setList] = useState([]);
+  const [bookList, setBookList] = useState([]);
   let [img, setImg] = useState("/profileImage.jpg");
   let r = useRouter();
   useEffect(() => {
-    var param1 = "20";
-    fetch(`/api/user/?param1=${param1}`) // API 라우트를 호출 (api는 고정, 뒤에 폴더 명은 api가 담긴 폴더에 따라 달라 짐)
+    var param1 = Cookies.get("userNo");
+    fetch(`/api/user/info/?param1=${param1}`) // API 라우트를 호출 (api는 고정, 뒤에 폴더 명은 api가 담긴 폴더에 따라 달라 짐)
       .then((response) => {
         if (!response.ok) {
           throw new Error('서버 응답이 실패했습니다.');
@@ -126,6 +132,34 @@ export default function User(){
       .then((data) => {
         setImg(`${data.U_IMG_PATH}${data.U_IMG_NAME}`);
         setPosts(data);
+      })
+      .catch((error) => {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      });
+
+      fetch(`/api/user/post/?param1=${param1}`) 
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('서버 응답이 실패했습니다.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setList(data);
+      })
+      .catch((error) => {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      });
+
+      fetch(`/api/user/bookMark/?param1=${param1}`) 
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('서버 응답이 실패했습니다.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setBookList(data);
       })
       .catch((error) => {
         console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -145,6 +179,7 @@ export default function User(){
               <EditProfileButton onClick={handleEditProfile}>
                 프로필 수정
               </EditProfileButton>
+              <EditProfileButton onClick={()=>{Cookies.remove('userNo'); r.push("/login")}}>임시 로그아웃</EditProfileButton>
             </NameEditBox>
             <Bio>{posts.USER_INTRODUCTION}</Bio>
             <Stats>
@@ -179,20 +214,12 @@ export default function User(){
     </PostTabs>
     {activeTab === 'posts' && (
       <Posts>
-        {/* Replace the src attribute with the user's actual post image URLs */}
-        <Post src="https://via.placeholder.com/300" />
-        <Post src="https://via.placeholder.com/300" />
-        <Post src="https://via.placeholder.com/300" />
-        {/* Add more posts as needed */}
+        {list.map((item) => <Post src={item.PATH} key={item.POST_NO}></Post>)}
       </Posts>
     )}
     {activeTab === 'saved' && (
       <Posts>
-        {/* Replace the src attribute with the user's actual saved post image URLs */}
-        <Post src="https://via.placeholder.com/300" />
-        <Post src="https://via.placeholder.com/300" />
-        <Post src="https://via.placeholder.com/300" />
-        {/* Add more saved posts as needed */}
+        {bookList.map((item) => <Post src={item.PATH} key={item.POST_NO}></Post>)}  
       </Posts>
     )}
   </Container>
