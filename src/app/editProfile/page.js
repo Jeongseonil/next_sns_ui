@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import MenuBar from '../MenuBar';
 
 const Form = styled.form`
   display: flex;
@@ -124,6 +125,7 @@ export default function Login() {
       <InputStyle placeholder='소개' name='introduction' defaultValue={posts.USER_INTRODUCTION}/>
       <InputStyle placeholder='성별' name='gender' defaultValue={posts.USER_GENDER}/>
       <SubmitStyle type='submit' value="수정"/>
+      <MenuBar />
     </Form>
   )
 }

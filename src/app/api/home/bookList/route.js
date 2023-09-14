@@ -8,7 +8,7 @@ export async function GET(req) {
     const param1 = searchParams.get('param1')
     const results = await new Promise((resolve, reject) => {
       db.query(
-        `SELECT POST_NO FROM HEART WHERE USER_NO = ?`, [param1],
+        `SELECT POST_NO FROM BOOKMARK WHERE USER_NO = ?`, [param1],
         (err, results) => {
             if (err) {
             console.error('데이터를 입력 중 오류 발생:', err);

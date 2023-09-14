@@ -7,7 +7,7 @@ export async function POST(req) {
     const requestData = await req.json();
     const results = await new Promise((resolve, reject) => {
       db.query(
-        `INSERT INTO HEART(USER_NO, POST_NO) VALUES(?, ?)`, [requestData.userNo, requestData.postNo],
+        `INSERT INTO BOOKMARK(USER_NO, POST_NO) VALUES(?, ?)`, [requestData.userNo, requestData.postNo],
         (err, results) => {
             if (err) {
             console.error('데이터를 입력 중 오류 발생:', err);
@@ -29,7 +29,7 @@ export async function PUT(req) {
     const requestData = await req.json();
     const results = await new Promise((resolve, reject) => {
       db.query(
-        `DELETE FROM HEART WHERE USER_NO = ? AND POST_NO = ?`, [requestData.userNo, requestData.postNo],
+        `DELETE FROM BOOKMARK WHERE USER_NO = ? AND POST_NO = ?`, [requestData.userNo, requestData.postNo],
         (err, results) => {
             if (err) {
             console.error('데이터를 입력 중 오류 발생:', err);

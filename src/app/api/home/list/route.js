@@ -25,7 +25,6 @@ export async function GET() {
             console.error('데이터를 가져오는 중 오류 발생:', err);
             reject(err);
             } else {
-            console.log('data ==> ', results);
             resolve(results);
             }
         });
