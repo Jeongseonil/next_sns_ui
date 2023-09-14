@@ -25,11 +25,12 @@ CREATE TABLE IF NOT EXISTS `bookmark` (
   KEY `FK_bookmark_post` (`POST_NO`),
   CONSTRAINT `FK_bookmark_post` FOREIGN KEY (`POST_NO`) REFERENCES `post` (`POST_NO`),
   CONSTRAINT `FK_bookmark_user` FOREIGN KEY (`USER_NO`) REFERENCES `user` (`USER_NO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 테이블 데이터 react.bookmark:~1 rows (대략적) 내보내기
 INSERT INTO `bookmark` (`BOOKMARK_NO`, `USER_NO`, `POST_NO`, `CDATETIME`) VALUES
-	(1, 20, 3, '2023-09-13 15:54:33');
+	(2, 20, 7, '2023-09-14 09:45:36'),
+	(3, 20, 6, '2023-09-14 10:15:38');
 
 -- 테이블 react.comment 구조 내보내기
 CREATE TABLE IF NOT EXISTS `comment` (
@@ -44,9 +45,18 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `POST_NO` (`POST_NO`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`USER_NO`) REFERENCES `user` (`USER_NO`),
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`POST_NO`) REFERENCES `post` (`POST_NO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 react.comment:~0 rows (대략적) 내보내기
+-- 테이블 데이터 react.comment:~7 rows (대략적) 내보내기
+INSERT INTO `comment` (`COMMENT_NO`, `USER_NO`, `POST_NO`, `COMMENT_CONTENT`, `CDATETIME`, `UDATETIME`) VALUES
+	(1, 20, 7, '집에 가고 싶다ㅜㅜ', '2023-09-14 11:52:48', '2023-09-14 11:52:48'),
+	(2, 20, 7, '올라가라', '2023-09-14 14:47:38', '2023-09-14 14:47:38'),
+	(3, 20, 7, '올라간다', '2023-09-14 14:48:25', '2023-09-14 14:48:25'),
+	(29, 20, 7, '새로고침', '2023-09-14 14:52:31', '2023-09-14 14:52:31'),
+	(32, 20, 6, '댓글', '2023-09-14 14:54:35', '2023-09-14 14:54:35'),
+	(33, 22, 7, '나도 집에 가고 싶다', '2023-09-14 14:57:58', '2023-09-14 14:57:58'),
+	(36, 20, 7, 'ㅍ ㅌ', '2023-09-14 17:12:59', '2023-09-14 17:12:59'),
+	(37, 22, 6, '이제 집에 갈시간', '2023-09-14 18:01:23', '2023-09-14 18:01:23');
 
 -- 테이블 react.follow 구조 내보내기
 CREATE TABLE IF NOT EXISTS `follow` (
@@ -78,9 +88,24 @@ CREATE TABLE IF NOT EXISTS `heart` (
   KEY `POST_NO` (`POST_NO`),
   CONSTRAINT `heart_ibfk_1` FOREIGN KEY (`USER_NO`) REFERENCES `user` (`USER_NO`),
   CONSTRAINT `heart_ibfk_2` FOREIGN KEY (`POST_NO`) REFERENCES `post` (`POST_NO`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 테이블 데이터 react.heart:~0 rows (대략적) 내보내기
+INSERT INTO `heart` (`HEART_NO`, `USER_NO`, `POST_NO`, `CDATETIME`, `UDATETIME`) VALUES
+	(25, 20, 7, '2023-09-14 17:34:38', '2023-09-14 17:34:38'),
+	(28, 20, 6, '2023-09-14 17:54:52', '2023-09-14 17:54:52'),
+	(29, 20, 5, '2023-09-14 17:54:54', '2023-09-14 17:54:54'),
+	(30, 20, 4, '2023-09-14 17:54:55', '2023-09-14 17:54:55'),
+	(31, 20, 1, '2023-09-14 17:54:56', '2023-09-14 17:54:56'),
+	(32, 20, 2, '2023-09-14 17:54:57', '2023-09-14 17:54:57'),
+	(33, 20, 3, '2023-09-14 17:54:59', '2023-09-14 17:54:59'),
+	(34, 22, 7, '2023-09-14 17:55:17', '2023-09-14 17:55:17'),
+	(35, 22, 6, '2023-09-14 17:55:18', '2023-09-14 17:55:18'),
+	(36, 22, 5, '2023-09-14 17:55:19', '2023-09-14 17:55:19'),
+	(37, 22, 4, '2023-09-14 17:55:21', '2023-09-14 17:55:21'),
+	(38, 22, 1, '2023-09-14 17:55:22', '2023-09-14 17:55:22'),
+	(39, 22, 2, '2023-09-14 17:55:24', '2023-09-14 17:55:24'),
+	(40, 22, 3, '2023-09-14 17:55:25', '2023-09-14 17:55:25');
 
 -- 테이블 react.post 구조 내보내기
 CREATE TABLE IF NOT EXISTS `post` (
@@ -95,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`USER_NO`) REFERENCES `user` (`USER_NO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 react.post:~0 rows (대략적) 내보내기
+-- 테이블 데이터 react.post:~7 rows (대략적) 내보내기
 INSERT INTO `post` (`POST_NO`, `USER_NO`, `POST_CONTENT`, `POST_HASHTAG`, `CDATETIME`, `UDATETIME`) VALUES
 	(1, 20, '아 집에 가고 싶다', '#집', '2023-09-13 10:56:07', '2023-09-13 10:56:07'),
 	(2, 20, '아 집에 가고 싶다', '#집', '2023-09-13 10:56:07', '2023-09-13 10:56:07'),
@@ -121,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `post_image` (
   CONSTRAINT `FK_post_image_post` FOREIGN KEY (`POST_NO`) REFERENCES `post` (`POST_NO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 react.post_image:~0 rows (대략적) 내보내기
+-- 테이블 데이터 react.post_image:~7 rows (대략적) 내보내기
 INSERT INTO `post_image` (`POST_IMG_NO`, `POST_NO`, `U_IMG_ORG_NAME`, `U_IMG_NAME`, `U_IMG_PATH`, `U_IMG_SIZE`, `DELETE_YN`, `CDATETIME`, `UDATETIME`) VALUES
 	(1, 1, 'homl', 'home.png', '/', 111, 'N', '2023-09-13 10:55:26', '2023-09-13 10:55:26'),
 	(2, 2, 'homl', 'home.png', '/', 111, 'N', '2023-09-13 10:55:26', '2023-09-13 10:55:26'),
@@ -153,7 +178,7 @@ INSERT INTO `profile_image` (`PROFILE_IMAGE_NO`, `USER_NO`, `U_IMG_ORG_NAME`, `U
 	(2, 2, '기본 프로필', 'profileImage.jpg', '/', 1, 'N', '2023-09-11 17:41:31', '2023-09-11 17:41:31'),
 	(11, 20, 'bear.jpg', '78b07e91-1797-41cc-82ca-b89e36b56b3a.jpg', '/', 41234, 'N', '2023-09-12 14:11:55', '2023-09-13 15:15:21'),
 	(12, 21, '기본 프로필', 'profileImage.jpg', '/', 111, 'N', '2023-09-12 14:28:35', '2023-09-12 14:28:35'),
-	(13, 22, '기본 프로필', 'profileImage.jpg', '/', 111, 'N', '2023-09-12 14:49:21', '2023-09-12 14:49:21');
+	(13, 22, 'KakaoTalk_20230830_112904649.png', 'c8ce626e-3f7e-4dc9-90b3-e0c1c77ecb4b.png', '/', 82999, 'N', '2023-09-12 14:49:21', '2023-09-14 14:57:47');
 
 -- 테이블 react.reply 구조 내보내기
 CREATE TABLE IF NOT EXISTS `reply` (
@@ -168,9 +193,15 @@ CREATE TABLE IF NOT EXISTS `reply` (
   KEY `COMMENT_NO` (`COMMENT_NO`),
   CONSTRAINT `reply_ibfk_1` FOREIGN KEY (`USER_NO`) REFERENCES `user` (`USER_NO`),
   CONSTRAINT `reply_ibfk_2` FOREIGN KEY (`COMMENT_NO`) REFERENCES `comment` (`COMMENT_NO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 react.reply:~0 rows (대략적) 내보내기
+-- 테이블 데이터 react.reply:~5 rows (대략적) 내보내기
+INSERT INTO `reply` (`REPLY_NO`, `USER_NO`, `COMMENT_NO`, `REPLY_CONTENT`, `CDATETIME`, `UDATETIME`) VALUES
+	(1, 20, 33, '저도요...', '2023-09-14 15:52:59', '2023-09-14 15:52:59'),
+	(2, 20, 2, '저도요', '2023-09-14 15:58:01', '2023-09-14 15:58:01'),
+	(3, 20, 33, '아아아아', '2023-09-14 17:08:02', '2023-09-14 17:08:02'),
+	(4, 20, 33, '아아아아', '2023-09-14 17:08:07', '2023-09-14 17:08:07'),
+	(5, 20, 33, '아아아아아', '2023-09-14 17:08:11', '2023-09-14 17:08:11');
 
 -- 테이블 react.user 구조 내보내기
 CREATE TABLE IF NOT EXISTS `user` (
@@ -192,7 +223,7 @@ INSERT INTO `user` (`USER_NO`, `USER_ID`, `USER_PWD`, `USER_PWD_SALT`, `USER_NAM
 	(2, 'test112', '123321', '1', '테스트', NULL, '자기소개', '2023-09-11 16:40:48', '2023-09-11 16:40:48'),
 	(20, 'test111@naver.com', '$2b$10$cBwxNfNd33iCqM9GE8M6hOHzCFupPwt0wBoys4dTqJoKc6FMIVC5a', '$2b$10$cBwxNfNd33iCqM9GE8M6hO', '테스트', '남성', '집에 가고 싶다', '2023-09-12 14:11:55', '2023-09-12 14:11:55'),
 	(21, 'test123@naver.com', '$2b$10$1DCJKqDDkmDlkOOwsvyzLeZ3A.2brpKv1HiKZuedhrJwtJmLBbWQe', '$2b$10$1DCJKqDDkmDlkOOwsvyzLe', '테스트3', NULL, NULL, '2023-09-12 14:28:35', '2023-09-12 14:28:35'),
-	(22, 'test222@naver.com', '$2b$10$jSIVYeQAVJpFkhTDX5FN..rwl2ZNQVupc/Qyh.tlWc9vULtVwqdxW', '$2b$10$jSIVYeQAVJpFkhTDX5FN..', '테스트222', NULL, NULL, '2023-09-12 14:49:21', '2023-09-12 14:49:21');
+	(22, 'test222@naver.com', '$2b$10$jSIVYeQAVJpFkhTDX5FN..rwl2ZNQVupc/Qyh.tlWc9vULtVwqdxW', '$2b$10$jSIVYeQAVJpFkhTDX5FN..', '테스트222', '', '', '2023-09-12 14:49:21', '2023-09-12 14:49:21');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
