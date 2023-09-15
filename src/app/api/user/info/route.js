@@ -10,14 +10,25 @@ export async function GET(req) {
       const { searchParams } = new URL(req.url)
       const param1 = searchParams.get('param1')
       db.query(
-        `SELECT U.USER_NAME, U.USER_INTRODUCTION, U.USER_GENDER, P.U_IMG_PATH, P.U_IMG_NAME, COUNT(P2.POST_NO) AS POST_CNT, COUNT(F.FOLLOW_NO) AS FOLLOWER_CNT, COUNT(F2.FOLLOW_NO) AS FOLLOW_CNT
-        FROM USER U
-        INNER JOIN PROFILE_IMAGE P ON U.USER_NO = P.USER_NO
-        LEFT JOIN POST P2 ON U.USER_NO = P2.USER_NO
-        LEFT JOIN FOLLOW F ON U.USER_NO = F.FOLLOW_USER_NO
-        LEFT JOIN FOLLOW F2 ON U.USER_NO = F2.USER_NO
-        WHERE U.USER_NO = ${param1}
-        GROUP BY U.USER_NAME, P.U_IMG_PATH, P.U_IMG_NAME;`,
+          `SELECT U.USER_NO, U.USER_NAME, U.USER_INTRODUCTION, U.USER_GENDER, P.U_IMG_PATH, P.U_IMG_NAME, IFNULL(POST_COUNT, 0) AS POST_CNT, IFNULL(FOLLOWER_COUNT, 0) AS FOLLOW_CNT, IFNULL(FOLLOWING_COUNT, 0) AS FOLLOWER_CNT
+          FROM USER U
+          INNER JOIN PROFILE_IMAGE P ON U.USER_NO = P.USER_NO
+          LEFT JOIN (
+              SELECT USER_NO, COUNT(*) AS POST_COUNT
+              FROM POST
+              WHERE USER_NO = ${param1}
+          ) AS POSTS ON U.USER_NO = POSTS.USER_NO
+          LEFT JOIN (
+              SELECT USER_NO, COUNT(*) AS FOLLOWER_COUNT
+              FROM follow
+              WHERE USER_NO = ${param1}
+          ) AS FOLLOWERS ON U.USER_NO = FOLLOWERS.USER_NO
+          LEFT JOIN (
+              SELECT FOLLOW_USER_NO, COUNT(*) AS FOLLOWING_COUNT
+              FROM follow
+              WHERE FOLLOW_USER_NO = ${param1}
+          ) AS FOLLOWING ON U.USER_NO = FOLLOWING.FOLLOW_USER_NO
+          WHERE U.USER_NO = ${param1};`,
         (err, results) => {
             if (err) {
             console.error('데이터를 가져오는 중 오류 발생:', err);

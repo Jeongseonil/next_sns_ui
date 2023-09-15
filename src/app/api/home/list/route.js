@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const results = await new Promise((resolve, reject) => {
       db.query(
-        `SELECT p.POST_NO, p.POST_CONTENT, p.POST_HASHTAG, u.USER_NAME, DATE_FORMAT(p.CDATETIME, '%Y-%m-%d %H시 %i분') AS CDATETIME, CONCAT(i.U_IMG_PATH, i.U_IMG_NAME) AS POST_PATH, CONCAT(pro.U_IMG_PATH, pro.U_IMG_NAME) AS USER_PATH, IFNULL(H.CNT, 0) AS HEART_CNT
+        `SELECT p.USER_NO, p.POST_NO, p.POST_CONTENT, p.POST_HASHTAG, u.USER_NAME, DATE_FORMAT(p.CDATETIME, '%Y-%m-%d %H시 %i분') AS CDATETIME, CONCAT(i.U_IMG_PATH, i.U_IMG_NAME) AS POST_PATH, CONCAT(pro.U_IMG_PATH, pro.U_IMG_NAME) AS USER_PATH, IFNULL(H.CNT, 0) AS HEART_CNT
         FROM post p
         INNER JOIN post_image i
           ON p.POST_NO = i.POST_NO

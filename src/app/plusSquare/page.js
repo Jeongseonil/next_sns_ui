@@ -17,7 +17,7 @@ const Form = styled.form``;
 const Input = styled.input`
   display: flex;
   justify-content: center;
-  width: 21vw;
+  width: 35vw;
   padding: 12px 20px;
   margin: 0 0 20px;
   box-sizing: border-box;
@@ -28,10 +28,10 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   display: flex;
   justify-content: center;
-  width: 21vw;
+  width: 35vw;
   height: 100px;
   padding: 12px 20px;
-  margin: 0 0 20px;
+  margin: 25px 0 20px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -198,7 +198,7 @@ export default function PlusSquare(){
             <SocialIcon onClick={() => handleSocialShare('facebook')}>
             <FaFacebookF />
             </SocialIcon>
-            <SocialIcon onClick={() => handleSocialShare('twitter')}>
+            <SocialIcon onClick={() => handleSocialShare('twitter')}> 
             <FaTwitter />
             </SocialIcon>
             <SocialIcon onClick={() => handleSocialShare('instagram')}>
@@ -207,6 +207,6 @@ export default function PlusSquare(){
             </SocialShare>
             </Container>
             <MenuBar />
-            </div>
+            </div>  
         );
     };

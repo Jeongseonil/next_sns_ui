@@ -66,7 +66,7 @@ export default function Search(){
       <Container>
         <SearchBar
           type="text"
-          placeholder="Search for users or hashtags..."
+          placeholder="검색"
           onChange={handleSearch}
         />
         <InfiniteScroll

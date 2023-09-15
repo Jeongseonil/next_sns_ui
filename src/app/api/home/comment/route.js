@@ -14,7 +14,8 @@ export async function GET(req) {
           ON c.USER_NO = u.USER_NO
         INNER JOIN profile_image p
           ON c.USER_NO = p.USER_NO	
-        WHERE POST_NO = ?`, [param1],
+        WHERE POST_NO = ?
+        ORDER BY c.CDATETIME DESC`, [param1],
         (err, results) => {
             if (err) {
             console.error('데이터를 검색 중 오류 발생:', err);
