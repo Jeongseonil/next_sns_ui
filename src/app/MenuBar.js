@@ -39,11 +39,11 @@ const MenuBar = () => {
         <FiPlusSquare />
       </MenuIcon>
       </a>
-      <a href='/heart'>
+      {/* <a href='/heart'>
       <MenuIcon>
         <FiHeart />
       </MenuIcon>
-      </a>
+      </a> */}
       <a href='/user'>
       <MenuIcon>
         <FiUser />

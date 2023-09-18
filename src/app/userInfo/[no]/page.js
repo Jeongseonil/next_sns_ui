@@ -124,6 +124,7 @@ export default function User(props){
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [followList, setFollowList] = useState([]);
+  const [isLoding, setIsLoding] = useState(true);
 
   const handleOpenModal = (content) => { //모달 오픈시 댓글 데이터 불러오기
     setModalContent(content);
@@ -196,6 +197,7 @@ export default function User(props){
       .catch((error) => {
         console.error('데이터를 가져오는 중 오류 발생:', error);
       });
+      setIsLoding(false);
   }, []);
 
   function addFollow(){
@@ -262,6 +264,9 @@ export default function User(props){
         북마크
       </Tab>
     </PostTabs>
+    {isLoding && (
+      <h1 style={{textAlign: "center"}}>로딩중...</h1>
+    )}
     {activeTab === 'posts' && (
       <Posts>
         {list.map((item) => <Post src={item.PATH} key={item.POST_NO} onClick={()=> handleOpenModal({POST_NO : item.POST_NO})}></Post>)}

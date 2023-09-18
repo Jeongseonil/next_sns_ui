@@ -73,6 +73,11 @@ const Link = styled.a`
   color: #0095F6 ;
   font-weight: bold;
 `
+const DivPwd = styled.div`
+  margin-top: 25px;
+  font-size: 12px;
+  cursor: pointer;
+`
 
 export default function Login() {
   let r = useRouter();
@@ -114,6 +119,7 @@ export default function Login() {
       <DivInput1><InputStyle type="email" name="email" placeholder="이메일 주소"></InputStyle></DivInput1>
       <DivInput1><InputStyle name="pwd" type='password' placeholder="비밀번호"></InputStyle></DivInput1>
       <DivInput2><Submit type="submit" value="로그인"></Submit></DivInput2>
+      <DivPwd onClick={()=> r.push("/passwordReset")}>비밀번호를 잊으셨나요?</DivPwd>
     </LoginBox1>
     <LoginBox>계정이 없으신가요? <Link href='#' onClick={(e) => {
       e.preventDefault();

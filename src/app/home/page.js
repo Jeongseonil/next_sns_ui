@@ -110,6 +110,7 @@ export default function Home(){
   const [posts, setPosts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const [isLoding, setIsLoding] = useState(true);
 
 
   const handleOpenModal = (content) => { //모달 오픈시 댓글 데이터 불러오기
@@ -273,6 +274,7 @@ export default function Home(){
     searchPostList();
     searchHeartList();
     searchBookList();
+    setIsLoding(false);
   }, []);
 
   const heartClick = (postNo) => {
@@ -294,6 +296,9 @@ export default function Home(){
   return (
     <div>
       <Feed>
+        {isLoding && (
+          <h1 style={{textAlign: "center"}}>로딩중...</h1>
+        )}
         {posts.map((post) => (
           <Post key={post.POST_NO}>
             <PostHeader>
@@ -304,11 +309,11 @@ export default function Home(){
                 r.push("/user")
               }
             }}>
-                <Avatar src={post.USER_PATH} alt={post.USERNAME} />
+                <Avatar src={post.USER_PATH} alt={post.USERNAME}/>
                 <Username>{post.USER_NAME}</Username>
               </User>
             </PostHeader>
-            <PostImage src={post.POST_PATH} alt="Post" />
+            <PostImage src={post.POST_PATH} alt="Post" onClick={() => handleOpenModal(post)}/>
             <PostActions>
               <IconDiv>
                 <ActionButton onClick={() => heartClick(post.POST_NO)}>{heartList.includes(post.POST_NO) ? <BsHeartFill/> : <BsHeart/>}</ActionButton>

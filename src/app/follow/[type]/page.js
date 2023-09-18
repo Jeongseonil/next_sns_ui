@@ -58,6 +58,7 @@ const ButtonStyle = styled.button`
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 4px;
+  cursor: pointer;
 `
 
 export default function Home(props) {
@@ -146,12 +147,12 @@ export default function Home(props) {
     </PostTabs>
     {activeTab === 'follower' && (
     <ul>
-      {followerList.map((item) => <LiStyle key={`follower${item.USER_NO}`}><SpanStyle onClick={()=> move(item.USER_NO)}><Avatar src={item.USER_PATH}></Avatar>{item.USER_NAME}</SpanStyle>가 팔로워 중입니다.</LiStyle>)}
+      {followerList.map((item) => <LiStyle key={`follower${item.USER_NO}`}><SpanStyle onClick={()=> move(item.USER_NO)}><Avatar src={item.USER_PATH}></Avatar>{item.USER_NAME}가 팔로워 중입니다.</SpanStyle></LiStyle>)}
     </ul>
     )}
     {activeTab === 'follow' && (
       <ul>
-        {followList.map((item) => <LiStyle key={`follower${item.FOLLOW_USER_NO}`}><SpanStyle onClick={()=> move(item.FOLLOW_USER_NO)}><Avatar src={item.USER_PATH}></Avatar>{item.USER_NAME}를 팔로잉 중입니다.</SpanStyle><ButtonStyle onClick={() => deleteFollow(item.FOLLOW_USER_NO)}>언팔로우</ButtonStyle></LiStyle>)}
+        {followList.map((item) => <LiStyle key={`follower${item.FOLLOW_USER_NO}`}><SpanStyle onClick={()=> move(item.FOLLOW_USER_NO)}><Avatar src={item.USER_PATH}></Avatar>{item.USER_NAME}을(를) 팔로잉 중입니다.</SpanStyle><ButtonStyle onClick={() => deleteFollow(item.FOLLOW_USER_NO)}>언팔로우</ButtonStyle></LiStyle>)}
       </ul>
     )}
     <MenuBar />
